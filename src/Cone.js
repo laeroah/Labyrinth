@@ -3,12 +3,14 @@
  */
 var Cone = function (game) {
     GameObject.call(this, "Cone", game);
-    var _cone = BABYLON.Mesh.CreateBox("cone", 1, game.scene, false);;
+    var _cone = BABYLON.Mesh.CreateBox("cone", 1, game.scene, false);
     _cone.scaling.x = 1;
     _cone.scaling.y = 1;
+    _cone.scaling.z = 1;
     _cone.isVisible = true;
     _cone.parent = this;
-    _cone.receiveShadows = true;
+    _cone.checkCollisions = true;
+    _cone.emissiveColor = new BABYLON.Color3(0.1, 0.1, 0.15);
 
     return _cone;
 };

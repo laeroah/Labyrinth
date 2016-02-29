@@ -95,7 +95,7 @@ Game.prototype._initScene = function(engine) {
     //var dl = new BABYLON.DirectionalLight("dir", new BABYLON.Vector3(1,-1,-0.5), scene);
     //dl.position = new BABYLON.Vector3(0, 40, 0);
 
-    scene.enablePhysics();
+    scene.enablePhysics(new BABYLON.Vector3(0, -0.8, 0), new BABYLON.OimoJSPlugin());
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
     var ground = BABYLON.Mesh.CreateBox("ground", 100, scene);
@@ -167,7 +167,9 @@ Game.prototype.moveBall = function () {
     if (player == undefined) { alert("undefined player"); }
 
     // Moving and rotating ball
-    player.position.addInPlace(direction);
+    //player.position.addInPlace(direction);
+    var force = direction;
+    player.applyImpulse(force, player.position);
     var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0, direction.z * 1.5, -direction.x * 1.5);
     player.rotationQuaternion = rotationToApply.multiply(player.rotationQuaternion);
 
@@ -178,7 +180,7 @@ Game.prototype.showLevel = function () {
 
     for (var i=0; i<3; i++) {
         var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(i, 0.5, 4);
+        cone.position = new BABYLON.Vector3(i, 1, 5);
         cone.material = groundMat;
         //_cone.body = this.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, {mass:1, restitution : 0.5, friction:0.5});
         cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
