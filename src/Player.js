@@ -11,10 +11,9 @@ var Player = function (game) {
     _player.parent = this;
     // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
     //var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, this.scene);
-    _player.body = _player.setPhysicsState(BABYLON.PhysicsEngine.SphereImpostor, {mass:1, friction:0.2});
 
      //Move the sphere upward 1/2 its height
-    _player.position.y = 3;
+    _player.position.y = 0.5;
     _player.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
 
     return _player;

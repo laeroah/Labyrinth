@@ -85,7 +85,7 @@ Game.prototype._initScene = function(engine) {
     var scene  = new BABYLON.Scene(engine);
     // The camera, necessary see the world
     // Follow camera
-    var camera = new BABYLON.FreeCamera("mainCamera", new BABYLON.Vector3(0,5,-10), scene);
+    var camera = new BABYLON.FreeCamera("mainCamera", new BABYLON.Vector3(0,10,-20), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
 
     // The ambient light
@@ -98,9 +98,19 @@ Game.prototype._initScene = function(engine) {
     scene.enablePhysics();
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-    var ground = BABYLON.Mesh.CreateGround("ground1", 6, 10, 2, scene);
-    ground.position.y = -1;
-    ground.body = ground.setPhysicsState(BABYLON.PhysicsEngine.PlaneImpostor, {mass:0, friction:0.2});
+    var ground = BABYLON.Mesh.CreateBox("ground", 100, scene);
+    ground.scaling.y = 0.01;
+    ground.position.y = 0;
+    var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
+    groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/wood.png", scene);
+    groundMaterial.diffuseTexture.uScale = 2;
+    groundMaterial.diffuseTexture.vScale = 2;
+    ground.material = groundMaterial;
+    ground.receiveShadows = true;
+    //ground.renderingGroupId = 1;
+    ground.position.y = 0;
+    ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
 
     var _this = this;
 
@@ -120,6 +130,7 @@ Game.prototype._initGame = function() {
     groundMat.diffuseTexture = new BABYLON.Texture("assets/textures/wall.jpg", this.scene);
 
     player = new Player(this);
+    player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
     //var a = new Apple(this);
 
     //// Debug Layer
@@ -167,8 +178,10 @@ Game.prototype.showLevel = function () {
 
     for (var i=0; i<3; i++) {
         var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(i, 0.5, 1);
+        cone.position = new BABYLON.Vector3(i, 0.5, 4);
         cone.material = groundMat;
+        //_cone.body = this.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, {mass:1, restitution : 0.5, friction:0.5});
+        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
     }
 
 };
