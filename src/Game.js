@@ -40,7 +40,7 @@ var Game = function(canvasId) {
         {
             name:"Football",
             folder:"assets/balls/",
-            filename:"football-soccer-ball.babylon",
+            filename:"soccer_ball.babylon",
             anims : []
         },
         {
@@ -85,7 +85,7 @@ Game.prototype._initScene = function(engine) {
     var scene  = new BABYLON.Scene(engine);
     // The camera, necessary see the world
     // Follow camera
-    var camera = new BABYLON.FreeCamera("mainCamera", new BABYLON.Vector3(0,10,-20), scene);
+    var camera = new BABYLON.FreeCamera("mainCamera", new BABYLON.Vector3(0,25,0), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
 
     // The ambient light
@@ -150,8 +150,20 @@ Game.prototype.updateMomentum = function(evt) {
     }
 
     orientationGamma = evt.gamma;
-    orientationBeta = evt.beta;
+    //if (orientationGamma > 5) {
+    //    orientationGamma = 5;
+    //}
+    //if (orientationGamma < -5) {
+    //    orientationGamma = -5;
+    //}
 
+    orientationBeta = evt.beta;
+    //if (orientationBeta > 5) {
+    //    orientationBeta = 5;
+    //}
+    //if (orientationBeta < -5) {
+    //    orientationBeta = -5;
+    //}
 };
 
 Game.prototype.moveBall = function () {
@@ -166,24 +178,46 @@ Game.prototype.moveBall = function () {
 
     if (player == undefined) { alert("undefined player"); }
 
-    // Moving and rotating ball
-    //player.position.addInPlace(direction);
     var force = direction;
     player.applyImpulse(force, player.position);
     var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0, direction.z * 1.5, -direction.x * 1.5);
     player.rotationQuaternion = rotationToApply.multiply(player.rotationQuaternion);
+
+    var position = player.position.clone();
+    position.y = 1;
+    player.position = position;
 
     direction.scaleInPlace(0.95);
 };
 
 Game.prototype.showLevel = function () {
 
-    for (var i=0; i<3; i++) {
+    for (var i=-6.5; i<7; i++) {
         var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(i, 1, 5);
+        cone.position = new BABYLON.Vector3(i, 1, 9.5);
         cone.material = groundMat;
-        //_cone.body = this.setPhysicsState(BABYLON.PhysicsEngine.BoxImpostor, {mass:1, restitution : 0.5, friction:0.5});
-        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
+        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+    }
+
+    for (var i=-6.5; i<7; i++) {
+        var cone = new Cone(this);
+        cone.position = new BABYLON.Vector3(i, 1, -9.3);
+        cone.material = groundMat;
+        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+    }
+
+    for (var i=-8.5; i<9.5; i++) {
+        var cone = new Cone(this);
+        cone.position = new BABYLON.Vector3(-6.5, 1, i);
+        cone.material = groundMat;
+        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+    }
+
+    for (var i=-8.5; i<9.5; i++) {
+        var cone = new Cone(this);
+        cone.position = new BABYLON.Vector3(6.5, 1, i);
+        cone.material = groundMat;
+        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
     }
 
 };

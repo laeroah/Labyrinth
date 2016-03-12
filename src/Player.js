@@ -5,7 +5,9 @@ var Player = function (game) {
     GameObject.call(this, "player", game);
 
     //var _player = game.assets['apple'].meshes[0];
-    var _player = BABYLON.Mesh.CreateSphere("player", 16, 1.0, game.scene, false);
+    //var _player = BABYLON.Mesh.CreateSphere("player", 16, 1.0, game.scene, false);
+
+    var _player = game.assets['Football'].meshes[0].clone();
 
     _player.isVisible = true;
     _player.parent = this;
@@ -16,6 +18,14 @@ var Player = function (game) {
     _player.position.y = 1;
     _player.checkCollisions = true;
     _player.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
+    _player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 3, friction: 0.5, restitution: 0.2 });
+
+    //var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", game.scene);
+    //playerMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    //playerMaterial.diffuseTexture = new BABYLON.Texture("assets/balls/PlatonicSurface_Color.jpg", game.scene);
+    //playerMaterial.diffuseTexture.uScale = 1;
+    //playerMaterial.diffuseTexture.vScale = 1;
+    //_player.material = playerMaterial;
 
     return _player;
 };
