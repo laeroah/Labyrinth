@@ -180,7 +180,8 @@ Game.prototype.moveBall = function () {
 
     var force = direction;
     player.applyImpulse(force, player.position);
-    var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0, direction.z * 1.5, -direction.x * 1.5);
+    var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0,
+    direction.y * 2.0, -direction.x * 2.0);
     player.rotationQuaternion = rotationToApply.multiply(player.rotationQuaternion);
 
     var position = player.position.clone();
