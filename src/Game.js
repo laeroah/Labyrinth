@@ -83,6 +83,7 @@ var Game = function(canvasId) {
 Game.prototype._initScene = function(engine) {
     // BABYLON Scene creation
     var scene  = new BABYLON.Scene(engine);
+    scene.enablePhysics(null, new BABYLON.OimoJSPlugin());
     // The camera, necessary see the world
     // Follow camera
     var camera = new BABYLON.FreeCamera("mainCamera", new BABYLON.Vector3(0,25,0), scene);
@@ -91,6 +92,13 @@ Game.prototype._initScene = function(engine) {
     // The ambient light
     var light  = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0,1,0), scene);
     light.intensity = 0.7;
+    light.diffuse = new BABYLON.Color3(1, 1, 1);
+    light.specular = new BABYLON.Color3(1, 1, 1);
+    light.groundColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+
+    scene.collisionsEnabled = true;
+    camera.checkCollisions = true;
+    camera.applyGravity = true;
 
     //var dl = new BABYLON.DirectionalLight("dir", new BABYLON.Vector3(1,-1,-0.5), scene);
     //dl.position = new BABYLON.Vector3(0, 40, 0);
@@ -110,7 +118,13 @@ Game.prototype._initScene = function(engine) {
     ground.receiveShadows = true;
     //ground.renderingGroupId = 1;
     ground.position.y = 0;
-    ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+    ground.checkCollisions = true;
+    ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
+
+    //var cone = new Cone(this);
+    //cone.position = new BABYLON.Vector3(i, 1, 9.5);
+    //cone.material = groundMat;
+    //cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
 
     var _this = this;
 
@@ -130,7 +144,7 @@ Game.prototype._initGame = function() {
     groundMat.diffuseTexture = new BABYLON.Texture("assets/textures/wall.jpg", this.scene);
 
     player = new Player(this);
-    player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
+    //player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
     //var a = new Apple(this);
 
     //// Debug Layer
@@ -144,26 +158,17 @@ Game.prototype.updateMomentum = function(evt) {
     //    return;
     //}
 
+    var gamma = evt.gamma;
+    var beta = evt.beta - 80;
+
     if (!initialOrientationGamma) {
-        initialOrientationGamma = evt.gamma;
-        initialOrientationBeta = evt.beta;
+        initialOrientationGamma = gamma;
+        initialOrientationBeta = beta;
     }
 
-    orientationGamma = evt.gamma;
-    //if (orientationGamma > 5) {
-    //    orientationGamma = 5;
-    //}
-    //if (orientationGamma < -5) {
-    //    orientationGamma = -5;
-    //}
+    orientationGamma = gamma;
 
-    orientationBeta = evt.beta;
-    //if (orientationBeta > 5) {
-    //    orientationBeta = 5;
-    //}
-    //if (orientationBeta < -5) {
-    //    orientationBeta = -5;
-    //}
+    orientationBeta = beta;
 };
 
 Game.prototype.moveBall = function () {
@@ -180,13 +185,10 @@ Game.prototype.moveBall = function () {
 
     var force = direction;
     player.applyImpulse(force, player.position);
-    var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0,
-    direction.y * 2.0, -direction.x * 2.0);
-    player.rotationQuaternion = rotationToApply.multiply(player.rotationQuaternion);
+    //var rotationToApply = BABYLON.Quaternion.RotationYawPitchRoll(0,
+    //direction.y * 2.0, -direction.x * 2.0);
+    //player.rotationQuaternion = rotationToApply.multiply(player.rotationQuaternion);
 
-    var position = player.position.clone();
-    position.y = 1;
-    player.position = position;
 
     direction.scaleInPlace(0.95);
 };

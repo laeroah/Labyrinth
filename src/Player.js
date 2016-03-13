@@ -15,10 +15,12 @@ var Player = function (game) {
     //var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, this.scene);
 
      //Move the sphere upward 1/2 its height
-    _player.position.y = 1;
+    _player.position.y = 2;
     _player.checkCollisions = true;
-    _player.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 0);
-    _player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 3, friction: 0.5, restitution: 0.2 });
+    _player.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, 0, 1);
+    _player.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 3, friction: 0.5, restitution: 0.3 });
+    _player.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    _player.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
 
     //var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", game.scene);
     //playerMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
