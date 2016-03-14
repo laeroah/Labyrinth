@@ -195,32 +195,33 @@ Game.prototype.moveBall = function () {
 
 Game.prototype.showLevel = function () {
 
-    for (var i=-6.5; i<7; i++) {
-        var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(i, 1, 9.5);
-        cone.material = groundMat;
-        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
-    }
+    groundMat.diffuseTexture.uScale = 2;
+    groundMat.diffuseTexture.vScale = 2;
 
-    for (var i=-6.5; i<7; i++) {
-        var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(i, 1, -9.3);
-        cone.material = groundMat;
-        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
-    }
+    var topWall = new Cone(this);
+    topWall.position = new BABYLON.Vector3(0, 1, 9.3);
+    topWall.material = groundMat;
+    topWall.scaling.x = 13;
+    topWall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
 
-    for (var i=-8.5; i<9.5; i++) {
-        var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(-6.5, 1, i);
-        cone.material = groundMat;
-        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
-    }
+    var bottomWall = new Cone(this);
+    bottomWall.position = new BABYLON.Vector3(0, 1, -9.5);
+    bottomWall.material = groundMat;
+    bottomWall.scaling.x = 13;
+    bottomWall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
 
-    for (var i=-8.5; i<9.5; i++) {
-        var cone = new Cone(this);
-        cone.position = new BABYLON.Vector3(6.5, 1, i);
-        cone.material = groundMat;
-        cone.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
-    }
+    groundMat.diffuseTexture.uScale = 4;
+    groundMat.diffuseTexture.vScale = 4;
 
+    var leftWall = new Cone(this);
+    leftWall.position = new BABYLON.Vector3(-6.5, 1, 0);
+    leftWall.material = groundMat;
+    leftWall.scaling.z = 18;
+    leftWall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+
+    var rightWall = new Cone(this);
+    rightWall.position = new BABYLON.Vector3(6.5, 1, 0);
+    rightWall.material = groundMat;
+    rightWall.scaling.z = 18;
+    rightWall.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
 };
