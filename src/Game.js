@@ -111,9 +111,9 @@ Game.prototype._initScene = function(engine) {
     ground.position.y = 0;
     var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
     groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/wood.png", scene);
-    groundMaterial.diffuseTexture.uScale = 2;
-    groundMaterial.diffuseTexture.vScale = 2;
+    groundMaterial.diffuseTexture = new BABYLON.Texture("assets/textures/grass.png", scene);
+    groundMaterial.diffuseTexture.uScale = 4;
+    groundMaterial.diffuseTexture.vScale = 4;
     ground.material = groundMaterial;
     ground.receiveShadows = true;
     //ground.renderingGroupId = 1;
@@ -159,7 +159,7 @@ Game.prototype.updateMomentum = function(evt) {
     //}
 
     var gamma = evt.gamma;
-    var beta = evt.beta - 80;
+    var beta = evt.beta - 90;
 
     if (!initialOrientationGamma) {
         initialOrientationGamma = gamma;
